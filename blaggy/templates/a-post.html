@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block title %}{{post.title}}{% endblock %}
+
+{% block container %}
+<div class="row">
+    <div class="col-md-12">
+        <h1>{{post.title}}</h1>
+        <br/>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12 text-right">
+        <h5>Author: {{post.get_author_name()}}</h5>
+        <h6>Created: {{post.get_created_time()}}</h6>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <hr/>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <p>{{post.get_content()|safe}}</p>
+    </div>
+</div>
+{% endblock %}

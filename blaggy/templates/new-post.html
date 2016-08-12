@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}Welcome{% endblock %}
+
+{% block container %}
+
+<div class="row">
+    <div class="col-md-12">
+
+        <h2 class="form-signin-heading">Post your story</h2>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+
+        <form id="blogPostFrom" role="form" action="/blog/new" method="post">
+            <label for="title" class="sr-only">Title</label>
+            <input type="text" name="title" id="title" class="form-control" placeholder="Blog Title" required autofocus>
+
+            <textarea name="content" id="postContent" class="blog-content" form="blogPostFrom" wrap="soft"
+                      placeholder="post your story here . . ."
+                      required></textarea>
+            <p class="errormsg">{{errormsg}}</p>
+            <button class="btn btn-lg btn-primary btn-block" type="submit">Post</button>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

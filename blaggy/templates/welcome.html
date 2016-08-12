@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block title %}Welcome{% endblock %}
+
+{% block container %}
+<div class="row">
+    <div class="col-md-12 text-center">
+
+        <h1>Welcome to App Stories.</h1>
+        <h3>H! {{user.name}}</h3>
+        <p>now you are all set to post your story.</p>
+        <a href="/blog/new">Talk out your App story</a>
+        <a href="/blog/all">See all other stories</a>
+    </div>
+</div>
+{% endblock %}
