@@ -38,20 +38,22 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">App Story</a>
+            <a class="navbar-brand" href="/blog/all">App Story</a>
         </div>
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
                 <li>
-                    <a href="#">About</a>
+                    <a href="/blog/new">Create Post</a>
                 </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li>
-                    <a href="#">Signin</a>
+                    <a href="/{{sign_activity_link|default('signin')}}">{{sign_activity|default("Signin")}}</a>
                 </li>
-                <li>
-                    <a href="#">Signup</a>
+                <li {% if sign_activity=="Signout" %}style="display:none;" {% endif %}>
+                    <a href="/signup">
+                        Signup
+                    </a>
                 </li>
             </ul>
         </div>
