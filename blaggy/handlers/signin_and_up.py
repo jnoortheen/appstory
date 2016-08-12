@@ -19,9 +19,16 @@ class SigninHandler(webapp2.RequestHandler):
     def post(self):
         username = self.request.get("userName")
         pwd = self.request.get("pwd")
+        rememberMe = self.request.get("rememberMe")
+
         if username and pwd and getUserByName(username):
             user = getUserByName(username)
-            self.response.set_cookie('user_id', str(getCookieHashForUserid(user.key().id())))
+            if rememberMe:
+                import datetime
+                self.response.set_cookie('user_id', str(getCookieHashForUserid(user.key().id())),
+                                         expires=(datetime.datetime.now() + datetime.timedelta(days=7)))
+            else:
+                self.response.set_cookie('user_id', str(getCookieHashForUserid(user.key().id())))
             self.redirect("/welcome")
         else:
             self.redirect('/signin?errormsg=invalid login')

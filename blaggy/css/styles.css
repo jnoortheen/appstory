@@ -38,6 +38,15 @@ body {
 .form-signin .form-control:focus {
   z-index: 2;
 }
+.btn-var-width{
+  width: 48%;
+}
+.btn-right{
+    float: right;
+}
+.btn-left{
+   float: left;
+}
 .form-signin input[type="email"] {
   margin-bottom: -1px;
   border-bottom-right-radius: 0;
