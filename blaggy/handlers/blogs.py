@@ -1,6 +1,7 @@
 import webapp2
-from models import BlogModel
 import templater
+import logging
+from models import BlogModel
 from cookies import getUserFromRequest
 
 
@@ -23,6 +24,8 @@ class UserPostsHandler(webapp2.RequestHandler):
         user = getUserFromRequest(self.request)
         posts.filter('author = ', user)
         posts.order('created_time')
+        logging.info('number of posts %s' % posts.count())
+
         if user:
             self.response.write(
                 templater.render_all_post(

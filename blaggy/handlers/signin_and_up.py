@@ -23,7 +23,7 @@ class SigninHandler(webapp2.RequestHandler):
 
         if username and pwd:
             user = getUserByName(username)  # type: UserModel
-            if user.checkPassword(pwd):
+            if user and user.checkPassword(pwd):
                 if rememberMe:
                     import datetime
                     self.response.set_cookie('user_id', str(getCookieHashForUserid(user.key().id())),
