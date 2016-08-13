@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Post{% endblock %}
+
+{% block container %}
+
+<div class="row">
+    <div class="col-md-12">
+        <h2 class="form-signin-heading">Edit your story</h2>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+
+        <form id="blogPostFrom" role="form" action="/blog/{{post.key().id()}}/edit" method="post">
+            <label for="title" class="sr-only">Title</label>
+            <input type="text" name="title" id="title" class="form-control" value="{{post.title}}" required autofocus>
+
+            <textarea name="content" id="postContent" class="blog-content" form="blogPostFrom" wrap="soft"
+                      required>{{post.content}}</textarea>
+            <p class="errormsg">{{errormsg}}</p>
+            <div class="row">
+                <div class="col-md-4">
+                    <button name="action" value="edit"
+                            class="btn btn-md btn-primary btn-var-width btn-left"
+                            type="submit">Edit
+                    </button>
+                </div>
+                <div class="col-md-4">
+                    <button name="action" value="delete}}"
+                            class="btn btn-md btn-primary btn-var-width btn-left"
+                            type="submit">Delete
+                    </button>
+                </div>
+                <div class="col-md-4">
+                    <button name="action" class="btn btn-md btn-default btn-var-width btn-right" type="button"
+                            onclick="window.location.replace('/blog/{{post.key().id()}}')">Cancel
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

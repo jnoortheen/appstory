@@ -2,17 +2,21 @@
 
 {% block title %}{{post.title}}{% endblock %}
 
+{% block editpost %}
+{% if showEdit %}
+<li>
+    <a href="/blog/{{post.key().id()}}/edit">
+        Edit this post
+    </a>
+</li>
+{% endif %}
+{% endblock %}
+
 {% block container %}
 <div class="row">
     <div class="col-md-12">
         <h1>{{post.title}}</h1>
         <br/>
-    </div>
-</div>
-<div class="row">
-    <div class="col-md-12 text-right">
-        <h5>Author: {{post.get_author_name()}}</h5>
-        <h6>Created: {{post.get_created_time()}}</h6>
     </div>
 </div>
 <div class="row">
@@ -23,6 +27,19 @@
 <div class="row">
     <div class="col-md-12">
         <p>{{post.get_content()|safe}}</p>
+    </div>
+</div>
+<!--showing content of the post-->
+<div class="row">
+    <div class="col-md-12">
+        <p>{{post.get_content()|safe}}</p>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12 text-right">
+        <h5>Author: {{post.get_author_name()}}</h5>
+        <h6>Created: {{post.get_created_time()}}</h6>
+        <h6>Modified: {{post.get_modified_time()}}</h6>
     </div>
 </div>
 {% endblock %}

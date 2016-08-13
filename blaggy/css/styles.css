@@ -39,13 +39,22 @@ body {
   z-index: 2;
 }
 .btn-var-width{
-  width: 48%;
+  width: 100%;
 }
 .btn-right{
     float: right;
 }
 .btn-left{
    float: left;
+}
+.btn-blog{
+ background-color: #868c92;
+ border-color: #0a0a0a;
+}
+.btn-blog:hover{
+    color: #fff;
+    background-color: #3c4348;
+    border-color: #0a0a0a;
 }
 .form-signin input[type="email"] {
   margin-bottom: -1px;

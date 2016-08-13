@@ -16,11 +16,13 @@ class SomeTestCase(unittest.TestCase):
 
     def testUserDb(self):
         self.setUp()
-        UserModel(name="user1", pwd="pwd1").put()
-        UserModel(name="user2", pwd="pwd2").put()
-        UserModel(name="user3", pwd="pwd3").put()
+        UserModel.createNewUser(name="user1", pwd="pwd1").put()
+        UserModel.createNewUser(name="user2", pwd="pwd2").put()
+        UserModel.createNewUser(name="user3", pwd="pwd3").put()
         assert db.Query(UserModel).filter('name = ', "user1").get().name == "user1"
         assert db.Query(UserModel).filter('name = ', "user5").get() == None
+        assert db.Query(UserModel).filter('name = ', 'user1').get().checkPassword('pwd1') == True
+        assert db.Query(UserModel).filter('name = ', 'user1').get().checkPassword('pwd2') == False
         print "hashed salted password ", db.Query(UserModel).filter('name = ', "user2").get().pwd
 
 

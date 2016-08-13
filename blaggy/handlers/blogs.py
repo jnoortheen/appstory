@@ -14,3 +14,21 @@ class BlogsHandler(webapp2.RequestHandler):
         self.response.write(
             templater.render_all_post(posts=posts, sign_activity=sign_activity, sign_activity_link=sign_activity_link)
         )
+
+
+class UserPostsHandler(webapp2.RequestHandler):
+    # list all user specific posts
+    def get(self):
+        posts = BlogModel.all()
+        user = getUserFromRequest(self.request)
+        posts.filter('author = ', user)
+        posts.order('created_time')
+        if user:
+            self.response.write(
+                templater.render_all_post(
+                    posts=posts,
+                    sign_activity='Signout',
+                    sign_activity_link='signout')
+            )
+        else:
+            self.redirect('/signin')

@@ -12,6 +12,7 @@ def render_signup_page(**kwargs):
     template = JINJA_ENV.get_template('sign-up.html')
     return template.render(**kwargs)
 
+
 def render_signin_page(**kwargs):
     template = JINJA_ENV.get_template('sign-in.html')
     return template.render(**kwargs)
@@ -24,6 +25,8 @@ def render_welcome_page(**kwargs):
 
 def render_a_post(**kwargs):
     template = JINJA_ENV.get_template('a-post.html')
+    # by default edit button will not be shown
+    kwargs['showEdit'] = 'showEdit' in kwargs
     return template.render(**kwargs)
 
 
@@ -34,4 +37,12 @@ def render_all_post(**kwargs):
 
 def render_new_post(**kwargs):
     template = JINJA_ENV.get_template('new-post.html')
+    return template.render(**kwargs)
+
+
+def render_edit_post(**kwargs):
+    template = JINJA_ENV.get_template('edit-post.html')
+    # if this template is called to render i.e. user is already logged in
+    kwargs['sign_activity'] = 'Signout'
+    kwargs['sign_activity_link'] = 'signout'
     return template.render(**kwargs)

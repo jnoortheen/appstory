@@ -45,16 +45,25 @@
                 <li>
                     <a href="/blog/new">Create Post</a>
                 </li>
+                {% block editpost %}
+                {% endblock %}
             </ul>
             <ul class="nav navbar-nav navbar-right">
+                {% if sign_activity=="Signout" %}
+                <li>
+                    <a href="/welcome">
+                        Home
+                    </a>
+                </li>
+                {% endif %}
                 <li>
                     <a href="/{{sign_activity_link|default('signin')}}">{{sign_activity|default("Signin")}}</a>
                 </li>
-                <li {% if sign_activity=="Signout" %}style="display:none;" {% endif %}>
-                    <a href="/signup">
-                        Signup
-                    </a>
+                {% if not sign_activity %}
+                <li>
+                    <a href="/signup">Signup</a>
                 </li>
+                {% endif %}
             </ul>
         </div>
     </div>

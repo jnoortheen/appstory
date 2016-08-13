@@ -9,7 +9,7 @@ class BlogModel(db.Model):
     # username of writer
     author = db.ReferenceProperty(UserModel, collection_name='posts')  # type:UserModel
     created_time = db.DateTimeProperty(auto_now_add=True)  # type:datetime
-    modified_time = db.DateTimeProperty(auto_now=True)
+    modified_time = db.DateTimeProperty(auto_now=True)  # type:datetime
 
     def get_content(self, truncate=False):
         if truncate:
@@ -24,3 +24,6 @@ class BlogModel(db.Model):
 
     def get_author_name(self):
         return "Anonymous" if not self.author else self.author.name
+
+    def get_modified_time(self):
+        return self.modified_time.strftime("%d-%m-%y %I:%M:%S%p")
