@@ -16,30 +16,48 @@
 <div class="row">
     <div class="col-md-12">
         <h1>{{post.title}}</h1>
-        <br/>
     </div>
 </div>
-<div class="row">
-    <div class="col-md-12">
-        <hr/>
-    </div>
-</div>
-<div class="row">
-    <div class="col-md-12">
-        <p>{{post.get_content()|safe}}</p>
-    </div>
-</div>
+<hr class="divider"/>
 <!--showing content of the post-->
 <div class="row">
     <div class="col-md-12">
         <p>{{post.get_content()|safe}}</p>
     </div>
 </div>
+<!--portion for like/dislike button and comment-->
 <div class="row">
-    <div class="col-md-12 text-right">
-        <h5>Author: {{post.get_author_name()}}</h5>
-        <h6>Created: {{post.get_created_time()}}</h6>
-        <h6>Modified: {{post.get_modified_time()}}</h6>
+    <div class="col-md-12 text-right small">
+        <p>Posted by: {{post.get_author_name()}}</p>
+        <p>On {{post.get_modified_time()}}</p>
     </div>
 </div>
+<hr class="divider"/>
+
+<div class="row">
+    <div class="col-md-6">
+        <p>{{post.get_likes_count()}} likes for the post so far...</p>
+    </div>
+    <div class="col-md-6">
+        <a href="/blog/{{post.key().id()}}?like=yes" class="btn btn-primary btn-blog">Like</a>
+        <a href="/blog/{{post.key().id()}}?like=no" class="btn btn-primary btn-blog">Dislike</a>
+        <button type="submit" class="btn btn-primary btn-blog">Comment</button>
+    </div>
+</div>
+<!--post comment form-->
+<!--todo hide this portion if user clicks on it show-->
+<!--<div class="row">-->
+<!--<div class="col-md-12">-->
+<!--<form role="form">-->
+<!--<div class="form-group">-->
+<!--<textarea class="form-control" rows="3"></textarea>-->
+<!--</div>-->
+<!--<button type="submit" class="btn btn-primary">Submit</button>-->
+<!--</form>-->
+<!--</div>-->
+<!--</div>-->
+<!--other comments-->
+<!--{% for comm in post.comments %}-->
+
+<!--{% endfor %}-->
 {% endblock %}

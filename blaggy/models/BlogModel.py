@@ -8,6 +8,8 @@ class BlogModel(db.Model):
     content = db.TextProperty(required=True)  # type: str
     # username of writer
     author = db.ReferenceProperty(UserModel, collection_name='posts')  # type:UserModel
+    # to count the likes for the post and store the user_id in the list
+    likes = db.ListProperty(item_type=long)  # type: list
     created_time = db.DateTimeProperty(auto_now_add=True)  # type:datetime
     modified_time = db.DateTimeProperty(auto_now=True)  # type:datetime
 
@@ -26,4 +28,10 @@ class BlogModel(db.Model):
         return "Anonymous" if not self.author else self.author.name
 
     def get_modified_time(self):
-        return self.modified_time.strftime("%d-%m-%y %I:%M:%S%p")
+        return self.modified_time.strftime("%d-%m-%y %I:%M%p")
+
+    def get_likes_count(self):
+        """
+        :return: number of likes for the post
+        """
+        return len(self.likes)

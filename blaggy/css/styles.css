@@ -51,6 +51,13 @@ body {
  background-color: #868c92;
  border-color: #0a0a0a;
 }
+.divider{
+    border: 1px solid #7d97ad;
+    margin: 2% 0px;
+}
+.small p{
+    margin: 0;
+}
 .btn-blog:hover{
     color: #fff;
     background-color: #3c4348;
