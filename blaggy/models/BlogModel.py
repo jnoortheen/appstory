@@ -19,7 +19,7 @@ class BlogModel(db.Model):
         return self.content.replace("\n", "<br/>")
 
     def get_created_time(self):
-        return self.created_time.strftime("%d-%m-%y %I:%M:%S%p")
+        return self.created_time.strftime("%b %d, %y at %I:%M %p")
 
     def get_perma_link(self):
         return "/blog/%s" % (self.key().id())
@@ -28,7 +28,11 @@ class BlogModel(db.Model):
         return "Anonymous" if not self.author else self.author.name
 
     def get_modified_time(self):
-        return self.modified_time.strftime("%d-%m-%y %I:%M%p")
+        return self.modified_time.strftime("%b %d, %y at %I:%M %p")
+
+    def get_comments_ordered(self):
+        # return comments ordered based on their created time
+        return self.comments.order('created_time')
 
     def get_likes_count(self):
         """

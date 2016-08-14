@@ -9,11 +9,11 @@ class BlogsHandler(webapp2.RequestHandler):
     # list all the blog posts - default landing page
     def get(self):
         posts = BlogModel.all()
-        posts.order('created_time')
-        sign_activity = 'Signout' if getUserFromRequest(self.request) else 'Signin'
-        sign_activity_link = 'signout' if sign_activity else 'signin'
+        posts.order('modified_time')
+        # check whether a user has signed in to the site
+        userSignedIn = getUserFromRequest(self.request) is not None  # type: bool
         self.response.write(
-            templater.render_all_post(posts=posts, sign_activity=sign_activity, sign_activity_link=sign_activity_link)
+            templater.render_all_post(posts=posts, userSignedIn=userSignedIn)
         )
 
 
@@ -23,15 +23,15 @@ class UserPostsHandler(webapp2.RequestHandler):
         posts = BlogModel.all()
         user = getUserFromRequest(self.request)
         posts.filter('author = ', user)
-        posts.order('created_time')
+        posts.order('modified_time')
         logging.info('number of posts %s' % posts.count())
 
         if user:
             self.response.write(
                 templater.render_all_post(
                     posts=posts,
-                    sign_activity='Signout',
-                    sign_activity_link='signout')
+                    userSignedIn=True
+                )
             )
         else:
             self.redirect('/signin')

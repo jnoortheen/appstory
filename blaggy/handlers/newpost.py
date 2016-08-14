@@ -8,7 +8,7 @@ class CreateBlogHandler(webapp2.RequestHandler):
     def get(self, errormsg=None):
         user = getUserFromRequest(self.request)
         if user:
-            self.response.write(templater.render_new_post(sign_activity='Signout', sign_activity_link='signout'))
+            self.response.write(templater.render_new_post(userSignedIn=True))
         else:
             # redirect to sign up page in case user is not found in the db
             self.redirect("/signup")

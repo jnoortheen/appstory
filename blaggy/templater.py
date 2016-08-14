@@ -10,11 +10,13 @@ JINJA_ENV = jinja2.Environment(
 
 def render_signup_page(**kwargs):
     template = JINJA_ENV.get_template('sign-up.html')
+    kwargs['userSignedIn'] = False
     return template.render(**kwargs)
 
 
 def render_signin_page(**kwargs):
     template = JINJA_ENV.get_template('sign-in.html')
+    kwargs['userSignedIn'] = False
     return template.render(**kwargs)
 
 
@@ -43,6 +45,5 @@ def render_new_post(**kwargs):
 def render_edit_post(**kwargs):
     template = JINJA_ENV.get_template('edit-post.html')
     # if this template is called to render i.e. user is already logged in
-    kwargs['sign_activity'] = 'Signout'
-    kwargs['sign_activity_link'] = 'signout'
+    kwargs['userSignedIn'] = True
     return template.render(**kwargs)

@@ -1,5 +1,7 @@
 import webapp2
-from models import BlogModel, UserModel
+import time
+import logging
+from models import BlogModel, UserModel, CommentModel
 import templater
 from cookies import getUserFromRequest
 
@@ -10,11 +12,11 @@ class BlogHandler(webapp2.RequestHandler):
         post = BlogModel.get_by_id(int(blog_id))  # type: BlogModel
         if post:
             user = getUserFromRequest(self.request)  # type: UserModel
-            sign_activity = 'Signout' if user else 'Signin'
-            sign_activity_link = 'signout' if sign_activity else 'signin'
+            userSignedIn = user is not None  # type: bool
             kwargs = {'post': post,
-                      'sign_activity': sign_activity,
-                      'sign_activity_link': sign_activity_link}
+                      'userSignedIn': userSignedIn,
+                      'current_user': user
+                      }
             if user and post.author.key().id() == user.key().id():
                 kwargs['showEdit'] = True
             if self.request.get('like'):
@@ -32,9 +34,54 @@ class BlogHandler(webapp2.RequestHandler):
                     # forward user to signin as they haven't logged in
                     self.redirect('/signin')
                     return
-
             self.response.write(
                 templater.render_a_post(**kwargs)
             )
         else:
             self.response.write("blog entry not found")
+
+    def post(self, blog_id):
+        """
+        This method is used to handle comment post/edit/delete on a post
+        """
+        user = getUserFromRequest(self.request)  # type: UserModel
+        if user:
+            post = BlogModel.get_by_id(long(blog_id))  # type: BlogModel
+            if not post:
+                # no post found. so redirect to default page.
+                self.redirect('/blog/all')
+                return
+
+            commentBtnAction = self.request.get('commentBtn')  # type:str
+            # update/create a new comment
+            if commentBtnAction:
+                # check if the comment body is valid
+                content = self.request.get('content')
+                if content:
+                    if commentBtnAction == 'comment':
+                        # create comment
+                        cmnt = CommentModel(author=user, post=post, content=content)
+                        cmnt.put()
+                        # making the page to refresh after putting content; because of db eng consistency problems
+                        time.sleep(0.1)
+                    elif commentBtnAction.isdigit():
+                        # update comment by the id
+                        cmnt = CommentModel.get_by_id(long(commentBtnAction))  # type: CommentModel
+                        # confirm that the comment is updated by its author
+                        if cmnt and user.key() == cmnt.author.key():
+                            cmnt.content = content
+                            cmnt.put()
+                            time.sleep(0.1)
+            # delete comment
+            elif self.request.get('deleteComment'):
+                commentId = self.request.get('deleteComment')  # type:str
+                if commentId and commentId.isdigit():
+                    cmnt = CommentModel.get_by_id(long(commentId))  # type: CommentModel
+                    # confirm that the comment is deleted by its author
+                    if cmnt and user.key() == cmnt.author.key():
+                        logging.info('cmnt %s' % cmnt)
+                        cmnt.delete()
+                        time.sleep(0.1)
+            self.redirect('/blog/%s' % blog_id)
+        else:
+            self.redirect('/signin')

@@ -11,8 +11,7 @@ class WelcomeHandler(webapp2.RequestHandler):
         if user:
             self.response.write(
                 templater.render_welcome_page(user=user,
-                                              sign_activity='Signout',
-                                              sign_activity_link='signout')
+                                              userSignedIn=True)
             )
         else:
             # redirect to sign up page in case user is not found in the db

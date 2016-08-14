@@ -13,4 +13,14 @@ indexes:
 - kind: BlogModel
   properties:
   - name: author
+  - name: modified_time
+
+- kind: BlogModel
+  properties:
+  - name: author
+  - name: created_time
+
+- kind: CommentModel
+  properties:
+  - name: post
   - name: created_time
