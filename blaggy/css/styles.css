@@ -77,7 +77,10 @@ body {
   border-top-right-radius: 0;
 }
 .form-inline{
-  display: inline-block;
+  display: inline-flex;
+}
+.form-inline button{
+  margin: 0 12px;
 }
 .media-heading button{
   background: transparent;

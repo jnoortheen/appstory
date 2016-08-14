@@ -35,19 +35,16 @@
 <hr class="divider"/>
 
 <div class="row">
-    <div class="col-md-6 font-large">
-        <button>
-            <a href="/blog/{{post.key().id()}}?like=yes">
+    <div class="col-md-12 font-large">
+        <form role="form" action="/blog/{{post.key().id()}}" method="post" class="form-inline">
+            <button name="likeComment" type="submit" value="like">
                 <i class="icon-thumbs-up" aria-hidden="true"></i>
-            </a>
-        </button>
-        {{post.get_likes_count()}}
-        <button>
-            <a href="/blog/{{post.key().id()}}?like=no">
+            </button>
+            <p>{{post.get_likes_count()}}</p>
+            <button name="dislikeComment" type="submit" value="dislike">
                 <i class="icon-thumbs-down" aria-hidden="true"></i>
-            </a>
-        </button>
-        <span style="padding:4%;"></span>
+            </button>
+        </form>
         {% if userSignedIn %}
         <button type="button" onclick="javascript:showCommentBox()">
             <i class="icon-chat-alt-fill" aria-hidden="true"></i>
@@ -142,5 +139,6 @@ function showCommentBox()
    $('#cmntContentTA').val("");
    $('#commentModal').modal('show');
 }
+
 </script>
 {% endblock %}

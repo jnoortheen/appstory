@@ -1,7 +1,7 @@
 from google.appengine.ext import db
 from datetime import datetime
 from .UserModel import UserModel
-
+import logging
 
 class BlogModel(db.Model):
     title = db.StringProperty(required=True)  # type: str

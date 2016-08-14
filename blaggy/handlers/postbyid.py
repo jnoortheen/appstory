@@ -19,21 +19,6 @@ class BlogHandler(webapp2.RequestHandler):
                       }
             if user and post.author.key().id() == user.key().id():
                 kwargs['showEdit'] = True
-            if self.request.get('like'):
-                if user and user.key().id() != post.author.key().id():
-                    # author of the post can't like his own
-                    if self.request.get('like') == 'yes':
-                        # add the like count if the user already didn't liked
-                        if user.key().id() not in post.likes:
-                            post.likes.append(user.key().id())
-                    elif self.request.get('like') == 'no':
-                        # reduce the like count and pop user id from list
-                        if user.key().id() in post.likes:
-                            post.likes.pop(user.key().id())
-                elif not user:
-                    # forward user to signin as they haven't logged in
-                    self.redirect('/signin')
-                    return
             self.response.write(
                 templater.render_a_post(**kwargs)
             )
@@ -51,7 +36,7 @@ class BlogHandler(webapp2.RequestHandler):
                 # no post found. so redirect to default page.
                 self.redirect('/blog/all')
                 return
-
+            logging.info(self.request)
             commentBtnAction = self.request.get('commentBtn')  # type:str
             # update/create a new comment
             if commentBtnAction:
@@ -82,6 +67,24 @@ class BlogHandler(webapp2.RequestHandler):
                         logging.info('cmnt %s' % cmnt)
                         cmnt.delete()
                         time.sleep(0.1)
+            # like or dislike posts
+            elif user.key().id() != post.author.key().id():
+                # author of the post can't like his own
+                if self.request.get('likeComment'):
+                    # add the like count if the user already didn't liked
+                    if user.key().id() not in post.likes:
+                        post.likes.append(user.key().id())
+                        # persist changes
+                        post.put()
+                        time.sleep(0.1)
+                elif self.request.get('dislikeComment'):
+                    # reduce the like count and pop user id from list
+                    if user.key().id() in post.likes:
+                        post.likes.remove(user.key().id())
+                        # persist changes
+                        post.put()
+                        time.sleep(0.1)
+
             self.redirect('/blog/%s' % blog_id)
         else:
             self.redirect('/signin')
