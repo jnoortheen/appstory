@@ -7,6 +7,7 @@ Built with
 - Google App Engine
 - webapp2
 - Bootstrap3
+- Jinja2
 - Iconmoon fonts
 
 How to use
@@ -27,3 +28,6 @@ Functionality
   Posts can be commented by any of registered user. Unregistered users can view the comments. Registered users can edit or delete their own comments.
 4.  Like/Dislike:
   Each of the post can be like/disliked by other registered users (Not the Author). User can't dislike a post if they haven't already liked it.
+
+The app is available on GAE at 
+https://appstory-140311.appspot.com/blog/all
